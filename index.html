@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamify - Justice League Learning Games</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', cursive, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: bounce 2s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .header h1 {
+            font-size: 60px;
+            color: #fff;
+            text-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ffde59 0%, #ff8c00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            font-size: 24px;
+            color: #fff;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .justice-league-hero {
+            width: 150%;
+            max-width: 800px;
+            height: 300px;
+            margin: 30px auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+            position: relative;
+            background: linear-gradient(135deg, #0f3460 0%, #533483 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .justice-league-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .hero-text {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            border: 3px solid rgba(255,255,255,0.2);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s;
+        }
+
+        .game-card:hover::before {
+            left: 100%;
+        }
+
+        .game-icon {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-icon::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .game-icon span {
+            font-size: 120px;
+            z-index: 1;
+            position: relative;
+        }
+
+        /* Tom & Jerry Colors (Yellow/Brown) */
+        .tom-jerry { 
+            background: linear-gradient(135deg, #FFD700 0%, #8B4513 100%); 
+        }
+
+        /* Ben 10 Colors (Green/Black) */
+        .ben10 { 
+            background: linear-gradient(135deg, #00FF00 0%, #006400 100%); 
+        }
+
+        /* Spongebob Colors (Yellow/Blue) */
+        .spongebob { 
+            background: linear-gradient(135deg, #FFEF00 0%, #1E90FF 100%); 
+        }
+
+        /* Avatar Colors (Blue/White) */
+        .avatar { 
+            background: linear-gradient(135deg, #87CEEB 0%, #4682B4 100%); 
+        }
+
+        /* Dora Colors (Pink/Orange) */
+        .dora { 
+            background: linear-gradient(135deg, #FF69B4 0%, #FF8C00 100%); 
+        }
+
+        /* Mr Bean Colors (Brown/Beige) */
+        .mr-bean { 
+            background: linear-gradient(135deg, #8B4513 0%, #F5DEB3 100%); 
+        }
+
+        /* Justice League Colors (Blue/Red) */
+        .justice-league { 
+            background: linear-gradient(135deg, #0000FF 0%, #FF0000 100%); 
+        }
+
+        .game-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 10px;
+            text-align: center;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+        }
+
+        .game-description {
+            font-size: 16px;
+            color: #e0e0e0;
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .play-btn {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 15px;
+            text-align: center;
+            border: 3px solid rgba(255,255,255,0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .game-card:hover .play-btn {
+            animation: wiggle 0.5s ease;
+            background: linear-gradient(135deg, #00cec9 0%, #00b894 100%);
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+
+        .justice-league-hover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 3;
+            text-align: center;
+        }
+
+        .game-card:hover .justice-league-hover {
+            opacity: 1;
+        }
+
+        .justice-character {
+            width: 235px;
+            height: 335px;
+            border-radius: 50%;
+            object-fit: fill;
+            margin-bottom: 15px;
+            border: 4px solid #ffde59;
+            box-shadow: 0 0 20px rgba(255, 222, 89, 0.5);
+        }
+
+        .justice-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ffde59;
+        }
+
+        .justice-description {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #e0e0e0;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 40px;
+            }
+            .header p {
+                font-size: 18px;
+            }
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            .justice-league-hero {
+                height: 200px;
+            }
+            .justice-character {
+                width: 140px;
+                height: 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Gamify</h1>
+            <p>Unleash your inner hero with our Justice League themed learning games! Each game is endorsed by a different Justice League member who will guide you through the challenges.</p>
+        </div>
+
+        <div class="justice-league-hero">
+            <img src="https://i.pinimg.com/1200x/6e/6c/c2/6e6cc2e7ad4dcf36ac7856b5c3206d41.jpg" alt="Justice League"> 
+        </div>
+
+        <div class="games-grid">
+            <!-- Tom and Jerry Addition Game -->
+            <a href="https://hubertmucyo.github.io/addition_game" class="game-card" target="_blank">
+                <div class="game-icon tom-jerry">
+                    <span>➕</span>
+                </div>
+                <div class="game-title">Tom & Jerry Addition Adventure</div>
+                <div class="game-description">
+                    Join Tom and Jerry in a hilarious addition adventure! Add up the cheese pieces and help Jerry outsmart Tom.
+                </div>
+                <div class="play-btn">🎯 Play Now!</div>
+                
+                <div class="justice-league-hover">
+                    <img src="https://i.pinimg.com/1200x/ab/b3/e5/abb3e574d4bcebc30b0768dc18ae8faf.jpg" alt="The Flash" class="justice-character">
+                    <div class="justice-name">THE FLASH</div>
+                    <div class="justice-description">
+                        "I'm the fastest man alive, and I need your help with these addition problems! Let's race through these math challenges together!"
+                    </div>
+                </div>
+            </a>
+
+            <!-- Ben 10 Division Game -->
+            <a href="https://hubertmucyo.github.io/division_game" class="game-card" target="_blank">
+                <div class="game-icon ben10">
+                    <span>➗</span>
+                </div>
+                <div class="game-title">Ben 10 Division Challenge</div>
+                <div class="game-description">
+                    Use your division skills to help Ben 10 defeat the alien invaders! Divide and conquer to save the day.
+                </div>
+                <div class="play-btn">🎯 Play Now!</div>
+                
+                <div class="justice-league-hover">
+                    <img src="https://i.pinimg.com/1200x/02/01/8d/02018d9186e4dfe5397674a22e54b2c3.jpg" alt="Wonder Woman" class="justice-character">
+                    <div class="justice-name">WONDER WOMAN</div>
+                    <div class="justice-description">
+                        "With the Lasso of Truth, I'll help you master division! Let's split these numbers and conquer the challenges together."
+                    </div>
+                </div>
+            </a>
+
+            <!-- Spongebob Multiplication Game -->
+            <a href="https://hubertmucyo.github.io/multiplication_game" class="game-card" target="_blank">
+                <div class="game-icon spongebob">
+                    <span>✖️</span>
+                </div>
+                <div class="game-title">Spongebob Multiplication Magic</div>
+                <div class="game-description">
+                    Dive into Bikini Bottom and learn multiplication with Spongebob! Multiply the Krabby Patties and have fun under the sea.
+                </div>
+                <div class="play-btn">🎯 Play Now!</div>
+                
+                <div class="justice-league-hover">
+                    <img src="https://i.pinimg.com/736x/e0/be/f1/e0bef15eab8cf8ace7db587ebf360995.jpg" alt="Aquaman" class="justice-character">
+                    <div class="justice-name">AQUAMAN</div>
+                    <div class="justice-description">
+                        "As ruler of the seven seas, I'll guide you through these multiplication challenges! Let's make waves with math!"
+                    </div>
+                </div>
+            </a>
+
+            <!-- Avatar Multiplication Game -->
+            <a href="https://hubertmucyo.github.io/avatar_multiply/" class="game-card" target="_blank">
+                <div class="game-icon avatar">
+                    <span>✖️</span>
+                </div>
+                <div class="game-title">Avatar Multiplication Masters</div>
+                <div class="game-description">
+                    Master the elements and multiplication with Avatar Aang! Multiply your way through the four nations.
+                </div>
+                <div class="play-btn">🎯 Play Now!</div>
+                
+                <div class="justice-league-hover">
+                    <img src="https://i.pinimg.com/736x/cc/cc/0f/cccc0f36f801a5a8c350778eeed7ea72.jpg" alt="Green Lantern" class="justice-character">
+                    <div class="justice-name">GREEN LANTERN</div>
+                    <div class="justice-description">
+                        "With the power of my ring, I'll help you master multiplication! Let's create constructs of numbers and solve these problems together."
+                    </div>
+                </div>
+            </a>
+
+            <!-- Dora the Explorer Division Game -->
+            <a href="https://hubertmucyo.github.io/division_game" class="game-card" target="_blank">
+                <div class="game-icon dora">
+                    <span>➗</span>
+                </div>
+                <div class="game-title">Dora Division Explorer</div>
+                <div class="game-description">
+                    Join Dora and Boots on a division adventure! Divide the treasures and solve puzzles along the way.
+                </div>
+                <div class="play-btn">🎯 Play Now!</div>
+                
+                <div class="justice-league-hover">
+                    <img src="https://i.pinimg.com/736x/1d/f2/eb/1df2eb67beb380fca5c02c1480d28009.jpg" alt="Supergirl" class="justice-character">
+                    <div class="justice-name">SUPERGIRL</div>
+                    <div class="justice-description">
+                        "With my super strength, I'll help you divide and conquer these math problems! Let's explore the world of division together."
+                    </div>
+                </div>
+            </a>
+
+            <!-- Mr. Bean Tic Tac Toe -->
+            <a href="https://hubertmucyo.github.io/Flutter-Tic-Tac-Toe" class="game-card" target="_blank">
+                <div class="game-icon mr-bean">
+                    <span>⭕</span>
+                </div>
+                <div class="game-title">Mr. Bean Tic-Tac-Toe</div>
+                <div class="game-description">
+                    Play the classic game of Tic-Tac-Toe with the hilarious Mr. Bean! Outsmart Teddy in this fun strategy game.
+                </div>
+                <div class="play-btn">🎯 Play Now!</div>
+                
+                <div class="justice-league-hover">
+                    <img src="https://i.pinimg.com/736x/1e/28/fd/1e28fdeb608851905d82c6b7acdd57de.jpg" alt="Batman" class="justice-character">
+                    <div class="justice-name">BATMAN</div>
+                    <div class="justice-description">
+                        "As the world's greatest detective, I'll help you develop winning strategies for Tic-Tac-Toe! Let's outsmart our opponents together."
+                    </div>
+                </div>
+            </a>
+
+            <!-- Flutter Hangman Game -->
+            <a href="https://hubertmucyo.github.io/Hangman-Game-Flutter" class="game-card" target="_blank">
+                <div class="game-icon justice-league">
+                    <span>📝</span>
+                </div>
+                <div class="game-title">Justice League Hangman</div>
+                <div class="game-description">
+                    Guess the Justice League themed words in this exciting Hangman game! Save the hero before time runs out.
+                </div>
+                <div class="play-btn">🎯 Play Now!</div>
+                
+                <div class="justice-league-hover">
+                    <img src="https://i.pinimg.com/736x/57/ed/1d/57ed1d09455583556c545eb75c36afe5.jpg" alt="Superman" class="justice-character">
+                    <div class="justice-name">SUPERMAN</div>
+                    <div class="justice-description">
+                        "With my super vision, I'll help you spot the right letters in this Hangman game! Let's save the day with your word skills."
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function createStars() {
+            var starsContainer = document.getElementById('stars');
+            for (var i = 0; i < 50; i++) {
+                var star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 3 + 2 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        createStars();
+
+        var gameCards = document.querySelectorAll('.game-card');
+        gameCards.forEach(function(card) {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02) rotate(' + (Math.random() * 4 - 2) + 'deg)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1) rotate(0deg)';
+            });
+        });
+    </script>
+</body>
+</html>
